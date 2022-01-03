@@ -1,16 +1,16 @@
 package com.jxrory.picea.user.entity;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.*;
+
 import java.io.Serializable;
 import java.util.Date;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.jxrory.picea.model.enums.GenderEnum;
 import lombok.Data;
 
 /**
  * 用户表
- * @author Rory
  * @TableName user
  */
 @TableName(value ="user")
@@ -30,7 +30,14 @@ public class User implements Serializable {
     /**
      * 密码
      */
+    @JsonIgnore
     private String password;
+
+    /**
+     * 密码 salt, 不能传到前端
+     */
+    @JsonIgnore
+    private String pwSalt;
 
     /**
      * 用户别名, 展示名字
@@ -50,7 +57,7 @@ public class User implements Serializable {
     /**
      * 0 未知, 1 男, 2 女
      */
-    private Byte sex;
+    private GenderEnum sex;
 
     /**
      * 头像URL

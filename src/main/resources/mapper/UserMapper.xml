@@ -8,7 +8,8 @@
             <id property="uid" column="uid" jdbcType="CHAR"/>
             <result property="username" column="username" jdbcType="VARCHAR"/>
             <result property="password" column="password" jdbcType="VARCHAR"/>
-            <result property="nickname" column="nickname" jdbcType="VARCHAR"/>
+            <result property="pwSalt" column="pw_salt" jdbcType="CHAR"/>
+            <result property="nick" column="nick" jdbcType="VARCHAR"/>
             <result property="email" column="email" jdbcType="VARCHAR"/>
             <result property="mobile" column="mobile" jdbcType="VARCHAR"/>
             <result property="sex" column="sex" jdbcType="TINYINT"/>
@@ -19,8 +20,8 @@
 
     <sql id="Base_Column_List">
         uid,username,password,
-        nickname,email,mobile,
-        sex,avatar,created,
-        updated
+        pw_salt,nick,email,
+        mobile,sex,avatar,
+        created,updated
     </sql>
 </mapper>

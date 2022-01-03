@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 
 /**
  *
- * @author Rory
  */
 @Service
 public class UserServiceImpl extends ServiceImpl<UserMapper, User>
