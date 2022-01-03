@@ -1,16 +1,18 @@
 package com.jxrory.picea.todo.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serializable;
 import java.util.Date;
-
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.Data;
 
 /**
- * 
+ * 任务表
  * @TableName todo
  */
+@TableName(value ="todo")
 @Data
 public class Todo implements Serializable {
     /**
@@ -114,5 +116,11 @@ public class Todo implements Serializable {
      */
     private String description;
 
+    /**
+     * 用户Id
+     */
+    private String userId;
+
+    @TableField(exist = false)
     private static final long serialVersionUID = 1L;
 }

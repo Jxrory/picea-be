@@ -1,22 +1,29 @@
 package com.jxrory.picea.user.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serializable;
 import java.util.Date;
 import lombok.Data;
 
 /**
  * 用户表
+ * @author Rory
  * @TableName user
  */
+@TableName(value ="user")
 @Data
 public class User implements Serializable {
     /**
      * 用户Id
      */
+    @TableId(type = IdType.ASSIGN_UUID)
     private String uid;
 
     /**
-     * 用户名
+     * 用户名/登录名
      */
     private String username;
 
@@ -28,7 +35,7 @@ public class User implements Serializable {
     /**
      * 用户别名, 展示名字
      */
-    private String nick;
+    private String nickname;
 
     /**
      * 电子邮箱
@@ -48,7 +55,7 @@ public class User implements Serializable {
     /**
      * 头像URL
      */
-    private String avator;
+    private String avatar;
 
     /**
      * 创建时间
@@ -60,5 +67,6 @@ public class User implements Serializable {
      */
     private Date updated;
 
+    @TableField(exist = false)
     private static final long serialVersionUID = 1L;
 }
