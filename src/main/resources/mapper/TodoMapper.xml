@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jxrory.picea.todo.mapper.TodoMapper">
+
+    <resultMap id="BaseResultMap" type="com.jxrory.picea.todo.entity.Todo">
+            <id property="uid" column="uid" jdbcType="VARCHAR"/>
+            <result property="priority" column="priority" jdbcType="TINYINT"/>
+            <result property="percent" column="percent" jdbcType="INTEGER"/>
+            <result property="seq" column="seq" jdbcType="INTEGER"/>
+            <result property="status" column="status" jdbcType="INTEGER"/>
+            <result property="related" column="related" jdbcType="VARCHAR"/>
+            <result property="clazz" column="clazz" jdbcType="VARCHAR"/>
+            <result property="geo" column="geo" jdbcType="VARCHAR"/>
+            <result property="dtstart" column="dtstart" jdbcType="TIMESTAMP"/>
+            <result property="completed" column="completed" jdbcType="TIMESTAMP"/>
+            <result property="due" column="due" jdbcType="TIMESTAMP"/>
+            <result property="created" column="created" jdbcType="TIMESTAMP"/>
+            <result property="updated" column="updated" jdbcType="TIMESTAMP"/>
+            <result property="dtstamp" column="dtstamp" jdbcType="TIMESTAMP"/>
+            <result property="categories" column="categories" jdbcType="VARCHAR"/>
+            <result property="location" column="location" jdbcType="VARCHAR"/>
+            <result property="organizer" column="organizer" jdbcType="VARCHAR"/>
+            <result property="summary" column="summary" jdbcType="VARCHAR"/>
+            <result property="url" column="url" jdbcType="VARCHAR"/>
+            <result property="description" column="description" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        uid,priority,percent,
+        seq,status,related,
+        clazz,geo,dtstart,
+        completed,due,created,
+        updated,dtstamp,categories,
+        location,organizer,summary,
+        url,description
+    </sql>
+</mapper>

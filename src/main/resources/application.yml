@@ -1,0 +1,8 @@
+server:
+  port: 7423 # 九宫格: [pice]a
+
+spring:
+  application:
+    name: picea
+  profiles:
+    active: dev

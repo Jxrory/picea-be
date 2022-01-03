@@ -1,0 +1,17 @@
+spring:
+  datasource:
+    driverClass: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:3306/picea?characterEncoding=utf8&useUnicode=true&useSSL=false&autoReconnect=true&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true
+    username: root
+    password: c9ReTv4T96SGcVe
+
+  redis:
+    host: 127.0.0.1
+    port: 6379
+    database: 0
+
+mybatis-plus:
+  mapper-locations:
+    - classpath*:mapper_**/**/*Mapper.xml
+  # 实体扫描，多个package用逗号或者分号分隔
+  typeAliasesPackage: com.jxrory.*.entity
