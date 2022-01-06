@@ -27,7 +27,7 @@ public class ApiException extends RuntimeException{
         super(message, cause);
     }
 
-    public ExceptionHandler getErrorCode() {
-        return exceptionHandler;
+    public String getCode() {
+        return exceptionHandler.getCode();
     }
 }
