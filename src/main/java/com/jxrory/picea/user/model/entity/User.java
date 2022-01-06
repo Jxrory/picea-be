@@ -1,4 +1,4 @@
-package com.jxrory.picea.user.entity;
+package com.jxrory.picea.user.model.entity;
 
 import com.baomidou.mybatisplus.annotation.*;
 

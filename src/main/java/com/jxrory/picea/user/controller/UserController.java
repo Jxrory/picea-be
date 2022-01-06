@@ -1,14 +1,15 @@
 package com.jxrory.picea.user.controller;
 
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import com.jxrory.picea.todo.entity.Todo;
-import com.jxrory.picea.todo.entity.request.TodoRequest;
-import com.jxrory.picea.user.entity.User;
+import cn.hutool.core.lang.UUID;
+import cn.hutool.crypto.SecureUtil;
+import com.jxrory.picea.user.model.entity.User;
+import com.jxrory.picea.user.model.request.UserCuRequest;
 import com.jxrory.picea.user.service.UserService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeanUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -27,8 +28,21 @@ public class UserController {
     private UserService userService;
 
     @PostMapping
-    public ResponseEntity<Boolean> add(@RequestBody User user) {
-        log.info("add user={}", user);
+    public ResponseEntity<Boolean> add(@RequestBody @Validated UserCuRequest userCuRequest) {
+        log.info("add userCuRequest={}", userCuRequest);
+        User user = new User();
+        BeanUtils.copyProperties(userCuRequest, user);
+
+        // 生成密码的盐
+        String salt = UUID.randomUUID().toString(true);
+        user.setPwSalt(salt);
+
+        // 密码加密 SecureUtil
+        String password = SecureUtil.hmacMd5(salt).digestHex(userCuRequest.getPassword());
+
+        user.setPassword(password);
+
+        log.info("user={}", user);
         return new ResponseEntity<>(userService.save(user), HttpStatus.OK);
     }
 
@@ -39,8 +53,10 @@ public class UserController {
     }
 
     @PutMapping(value = "/{uid}")
-    public ResponseEntity<Boolean> update(@PathVariable String uid, @RequestBody User user) {
-        user.setUid(uid);
+    public ResponseEntity<Boolean> update(@PathVariable String uid, @RequestBody UserCuRequest userCuRequest) {
+        User user = userService.getById(uid);
+        BeanUtils.copyProperties(userCuRequest, user);
+        log.debug("save user={}", user);
         return new ResponseEntity<>(userService.updateById(user), HttpStatus.OK);
     }
 
