@@ -35,7 +35,7 @@ public class AuthorizationInterceptor implements HandlerInterceptor {
         log.debug(">>> AuthorizationInterceptor preHandle --------");
         // 取出 token
         String token = request.getHeader(AUTHORIZATION_KEY);
-        log.info("token={}", token);
+        log.debug("AuthorizationInterceptor preHandle token={}", token);
         // 去除 "Bearer " 数据
         String realToken = StringUtils.substring(token, "Bearer ".length());
 
