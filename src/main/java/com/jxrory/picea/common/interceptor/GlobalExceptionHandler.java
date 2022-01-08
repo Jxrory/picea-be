@@ -19,11 +19,13 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(value = ApiException.class)
     public ResponseEntity bizExceptionHandler(HttpServletRequest request, ApiException e) {
-        return new ResponseEntity<>(new ErrorMsg(e.getCode(), e.getMessage()), HttpStatus.OK);
+        return new ResponseEntity<>(new ErrorMsg(e.getCode(), e.getMessage()), HttpStatus.EXPECTATION_FAILED);
     }
 
     @ExceptionHandler(value = BindException.class)
     public ResponseEntity paramsBindException(HttpServletRequest request, BindException e) {
-        return new ResponseEntity<>(new ErrorMsg("00001", Objects.requireNonNull(e.getBindingResult().getFieldError()).getDefaultMessage()), HttpStatus.OK);
+        return new ResponseEntity<>(new ErrorMsg("00001",
+                Objects.requireNonNull(e.getBindingResult().getFieldError()).getDefaultMessage()),
+                HttpStatus.BAD_REQUEST);
     }
 }

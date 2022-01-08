@@ -1,21 +1,24 @@
 package com.jxrory.picea.user.service.impl;
 
+import cn.hutool.core.lang.UUID;
 import cn.hutool.crypto.SecureUtil;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.jxrory.picea.common.exception.ApiException;
 import com.jxrory.picea.user.config.AuthBearerConfig;
-import com.jxrory.picea.user.model.dto.TokenPayloadDTO;
 import com.jxrory.picea.user.model.entity.User;
 import com.jxrory.picea.user.model.enums.LoginExceptionEnum;
 import com.jxrory.picea.user.model.request.LoginRequest;
 import com.jxrory.picea.user.model.vo.LoginVO;
 import com.jxrory.picea.user.service.LoginService;
 import com.jxrory.picea.user.service.UserService;
-import com.jxrory.picea.user.utils.JwtUtil;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.Date;
 
 /**
  * @author Rory
@@ -45,10 +48,30 @@ public class LoginServiceImpl implements LoginService {
             throw new ApiException(LoginExceptionEnum.USERNAME_OR_PASSWORD_ERR);
         }
 
-        // 3. 生成token
-        String token = JwtUtil.createToken(
-                new TokenPayloadDTO(authBearerConfig.getIssuer(), authBearerConfig.getSubject(), user.getUid(), authBearerConfig.getDuration()),
-                authBearerConfig.getSecretKey());
+        /**
+         * 构建 JWT:
+         *     1. "iss" (Issuer: 发行人) Claim
+         *     2. "sub" (Subject: 主题) Claim
+         *     3. "aud" (Audience: 用户) Claim
+         *     4. "exp" (Expiration Time: 过期时间) Claim
+         *     5. "nbf" (Not Before: 开始时间) Claim
+         *     6. "iat" (Issued At: 发行时间) Claim
+         *     7. "jti" (JWT ID) Claim
+         */
+        Date now = new Date();
+        String token = Jwts.builder()
+                .setHeaderParam("ver", authBearerConfig.getVersion())
+
+                .setIssuer(authBearerConfig.getIssuer())
+                .setSubject(authBearerConfig.getSubject())
+                .setAudience(user.getUid())
+                .setIssuedAt(now)
+                .setNotBefore(now)
+                .setExpiration(DateUtils.addMinutes(now, authBearerConfig.getDuration()))
+                .setId(UUID.fastUUID().toString(true))
+
+                .signWith(SignatureAlgorithm.HS256, authBearerConfig.getSecretKey())
+                .compact();
 
         return new LoginVO(token);
     }

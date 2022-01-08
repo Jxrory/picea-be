@@ -8,10 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -29,7 +26,7 @@ public class AuthController {
     private LoginService loginService;
 
     @PostMapping(value = "/login")
-    public ResponseEntity<LoginVO> login(@Validated LoginRequest loginRequest, HttpServletRequest request) {
+    public ResponseEntity<LoginVO> login(@RequestBody @Validated LoginRequest loginRequest, HttpServletRequest request) {
         // 设置真实 IP
         loginRequest.setRealIp(IpUtils.getClientIp(request));
         // 生成 Access Token
