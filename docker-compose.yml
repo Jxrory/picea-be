@@ -1,0 +1,18 @@
+version: "3"
+
+services:
+  picea-backend:
+    container_name: picea-backend
+    build: ./
+    image: picea/backend
+    restart: always
+    ports:
+      - 7423:7423
+    volumes:
+      - ${BASIC_DATA_PATH}/picea:/application/data # 存放的本地数据
+      - ${BASIC_LOG_PATH}/picea:/application/log # 日志
+
+networks:
+  default:
+    external:
+      name: net_backend
