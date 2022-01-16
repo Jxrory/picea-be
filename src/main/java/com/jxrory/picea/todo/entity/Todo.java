@@ -18,8 +18,13 @@ public class Todo implements Serializable {
     /**
      * UID (唯一标识符)
      */
-    @TableId(type = IdType.ASSIGN_UUID)
+    @TableId
     private String uid;
+
+    /**
+     * 用户Id
+     */
+    private String userId;
 
     /**
      * 优先级: 0: 未定义, 1-9: 优先级逐步降低
@@ -55,6 +60,11 @@ public class Todo implements Serializable {
      * GPS坐标
      */
     private String geo;
+
+    /**
+     * 工作空间Id
+     */
+    private String workspaceId;
 
     /**
      * 开始时间
@@ -115,11 +125,6 @@ public class Todo implements Serializable {
      * 内容
      */
     private String description;
-
-    /**
-     * 用户Id
-     */
-    private String userId;
 
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;

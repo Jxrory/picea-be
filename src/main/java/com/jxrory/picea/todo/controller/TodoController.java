@@ -9,6 +9,7 @@ import com.jxrory.picea.todo.entity.enums.TodoStatus;
 import com.jxrory.picea.todo.entity.request.TodoRequest;
 import com.jxrory.picea.todo.service.TodoService;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.CollectionUtils;
@@ -53,9 +54,12 @@ public class TodoController {
         log.info("todoRequest={}", todoRequest);
         LambdaQueryWrapper<Todo> wrapper = Wrappers.<Todo>lambdaQuery();
 
-        if (!CollectionUtils.isEmpty(todoRequest.getStatuses())) {
-            wrapper.in(Todo::getStatus, todoRequest.getStatuses());
-        }
+        // 工作空间过滤
+        wrapper.eq(StringUtils.isNotBlank(todoRequest.getWorkspaceId()), Todo::getWorkspaceId, todoRequest.getWorkspaceId());
+
+        // 状态过滤
+        wrapper.in(!CollectionUtils.isEmpty(todoRequest.getStatuses()), Todo::getStatus, todoRequest.getStatuses());
+
         return new ResponseEntity<>(todoService.list(wrapper), HttpStatus.OK);
     }
 
@@ -65,18 +69,22 @@ public class TodoController {
      * 2. 所有待完成的任务
      * 2.1 需要排除计划开始时间 > 今日的结束时间
      *
-     * @param includeCompleted 是否要包含 今天已经完成的任务
+     * @param todoRequest 请求参数
      * @return 任务列表
      */
     @GetMapping(value = "/today")
-    public ResponseEntity<List<Todo>> listToday(@RequestParam(defaultValue = "true") Boolean includeCompleted) {
+    public ResponseEntity<List<Todo>> listToday(TodoRequest todoRequest) {
         LambdaQueryWrapper<Todo> wrapper = Wrappers.<Todo>lambdaQuery();
 
+        // 工作空间过滤
+        wrapper.eq(StringUtils.isNotBlank(todoRequest.getWorkspaceId()), Todo::getWorkspaceId, todoRequest.getWorkspaceId());
+
+        // 所有待完成的任务, 排除计划开始时间 大于 今日的结束时间
         wrapper.and(i -> i.in(Todo::getStatus, ListUtil.toList(TodoStatus.IN_PROCESS.getCode(), TodoStatus.NEEDS_ACTIO))
                 .lt(Todo::getDtstart, DateUtil.beginOfDay(DateUtil.tomorrow())));
 
         // 今日已完成任务
-        if (includeCompleted) {
+        if (todoRequest.getIncludeCompleted()) {
             wrapper.or(i -> i.gt(Todo::getCompleted, DateUtil.beginOfDay(new Date())));
         }
 

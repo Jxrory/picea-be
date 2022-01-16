@@ -6,6 +6,7 @@
 
     <resultMap id="BaseResultMap" type="com.jxrory.picea.todo.entity.Todo">
             <id property="uid" column="uid" jdbcType="CHAR"/>
+            <result property="userId" column="user_id" jdbcType="CHAR"/>
             <result property="priority" column="priority" jdbcType="TINYINT"/>
             <result property="percent" column="percent" jdbcType="INTEGER"/>
             <result property="seq" column="seq" jdbcType="INTEGER"/>
@@ -13,6 +14,7 @@
             <result property="related" column="related" jdbcType="VARCHAR"/>
             <result property="clazz" column="clazz" jdbcType="VARCHAR"/>
             <result property="geo" column="geo" jdbcType="VARCHAR"/>
+            <result property="workspaceId" column="workspace_id" jdbcType="VARCHAR"/>
             <result property="dtstart" column="dtstart" jdbcType="TIMESTAMP"/>
             <result property="completed" column="completed" jdbcType="TIMESTAMP"/>
             <result property="due" column="due" jdbcType="TIMESTAMP"/>
@@ -25,16 +27,16 @@
             <result property="summary" column="summary" jdbcType="VARCHAR"/>
             <result property="url" column="url" jdbcType="VARCHAR"/>
             <result property="description" column="description" jdbcType="VARCHAR"/>
-            <result property="userId" column="user_id" jdbcType="CHAR"/>
     </resultMap>
 
     <sql id="Base_Column_List">
-        uid,priority,percent,
-        seq,status,related,
-        clazz,geo,dtstart,
-        completed,due,created,
-        updated,dtstamp,categories,
-        location,organizer,summary,
-        url,description,user_id
+        uid,user_id,priority,
+        percent,seq,status,
+        related,clazz,geo,
+        workspace_id,dtstart,completed,
+        due,created,updated,
+        dtstamp,categories,location,
+        organizer,summary,url,
+        description
     </sql>
 </mapper>

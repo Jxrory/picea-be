@@ -23,5 +23,5 @@ auth:
     version: "1" # bearer 版本号
     issuer: "picea" # "iss" (Issuer: 发行人)
     subject: "piceaJWT" # "sub" (Subject: 主题)
-    duration: 10080 # bearer 的有限时间
+    duration: 10080 # bearer 的有效时长
     secret-key: "Fle#ien,Jjekx@KPm#nekix"

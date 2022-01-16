@@ -6,7 +6,7 @@ import lombok.Data;
 import javax.validation.constraints.NotBlank;
 
 /**
- * 用户添加更新操作
+ * 用户添加更新操作 {@link com.jxrory.picea.user.model.entity.User}
  *
  * @author Rory
  * @date 2022/1/3 下午9:20
@@ -50,4 +50,9 @@ public class UserCuRequest {
      * 头像URL
      */
     private String avatar;
+
+    /**
+     * 当前用户的工作空间, 默认DEFAULT
+     */
+    private String workspace;
 }

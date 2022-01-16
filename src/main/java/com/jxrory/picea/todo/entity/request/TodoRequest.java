@@ -22,7 +22,7 @@ public class TodoRequest {
     /**
      * 是否要包含今日已完成的任务
      */
-    private Boolean includeCompleted = false;
+    private Boolean includeCompleted = true;
 
     /**
      * 使用完成时间过滤
@@ -33,4 +33,9 @@ public class TodoRequest {
      * 使用创建时间过滤
      */
     private Period created;
+
+    /**
+     * 需要过滤的工作空间
+     */
+    private String workspaceId;
 }
