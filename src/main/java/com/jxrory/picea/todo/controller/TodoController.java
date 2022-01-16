@@ -79,14 +79,14 @@ public class TodoController {
         // 工作空间过滤
         wrapper.eq(StringUtils.isNotBlank(todoRequest.getWorkspaceId()), Todo::getWorkspaceId, todoRequest.getWorkspaceId());
 
-        // 所有待完成的任务, 排除计划开始时间 大于 今日的结束时间
-        wrapper.and(i -> i.in(Todo::getStatus, ListUtil.toList(TodoStatus.IN_PROCESS.getCode(), TodoStatus.NEEDS_ACTIO))
-                .lt(Todo::getDtstart, DateUtil.beginOfDay(DateUtil.tomorrow())));
-
-        // 今日已完成任务
-        if (todoRequest.getIncludeCompleted()) {
-            wrapper.or(i -> i.gt(Todo::getCompleted, DateUtil.beginOfDay(new Date())));
-        }
+        // 可读性太差...
+        wrapper.and(i1 ->
+                // 所有待完成的任务, 排除计划开始时间 大于 今日的结束时间
+                i1.and(i ->
+                        i.in(Todo::getStatus, ListUtil.toList(TodoStatus.IN_PROCESS.getCode(), TodoStatus.NEEDS_ACTIO))
+                                .lt(Todo::getDtstart, DateUtil.beginOfDay(DateUtil.tomorrow())))
+                        // 今日已完成任务
+                        .or(todoRequest.getIncludeCompleted(), i -> i.gt(Todo::getCompleted, DateUtil.beginOfDay(new Date()))));
 
         return new ResponseEntity<>(todoService.list(wrapper), HttpStatus.OK);
     }
