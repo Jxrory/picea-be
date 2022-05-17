@@ -3,7 +3,7 @@ spring:
     driverClass: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://127.0.0.1:3306/picea?characterEncoding=utf8&useUnicode=true&useSSL=false&autoReconnect=true&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true
     username: root
-    password: c9ReTv4T96SGcVe
+    password: root
 
   redis:
     host: 127.0.0.1
@@ -20,8 +20,8 @@ mybatis-plus:
 
 auth:
   bearer:
-    version: "1" # bearer 版本号
-    issuer: "picea" # "iss" (Issuer: 发行人)
-    subject: "piceaJWT" # "sub" (Subject: 主题)
+    version: '1' # bearer 版本号
+    issuer: 'picea' # "iss" (Issuer: 发行人)
+    subject: 'piceaJWT' # "sub" (Subject: 主题)
     duration: 10080 # bearer 的有效时长
-    secret-key: "Fle#ien,Jjekx@KPm#nekix"
+    secret-key: 'Fle#ien,kldf@KPm#nekix'
